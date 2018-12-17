@@ -1,28 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Home from './components/Home';
+import action from './redux/Action';
+import {connect} from 'react-redux';
+
+function mapStateToProps(state) {
+  return {
+    todoList: state.TodoReducer.todoList
+  }
+}
+
+function mapDispatchProps(dispatch) {
+  return {
+    addTodo: (arg) => dispatch(action.addTodo(arg))
+  };
+}
 
 class App extends Component {
   render() {
+    const {todoList, addTodo} = this.props;
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <button onClick={addTodo.bind(this, '加一')}>
+            这是一个用了React-Redux的按钮
+          </button>
+          <Home/>
         </header>
       </div>
     );
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchProps)(App);
